@@ -12,7 +12,7 @@ Steven Zamborsky
 #include <fstream>
 using namespace std;
  
-const int NUM_GENES = 35000;
+const int NUM_GENES = 1000;
 int count;
 
 int longestCommonSequence(unsigned short *matrix, string &gene1, int p1, string &gene2, int p2);
@@ -41,13 +41,14 @@ int main (int argc, char* argv[]) {
 
 /***** Compute *****/
 	clock_t startWatch = clock();	// start the timing
+	cout << genes[59].length() << endl;
     //Compute LCS matrix
 	for (int loc=0; loc<NUM_GENES-1; loc++) {
 		for (int i=loc+1; i<NUM_GENES; i++) {
 			cout << "LCS on genes: " << loc << " and " << i << endl ;
-			//unsigned short* matrix = new unsigned short [ genes[loc].length()*genes[i].length() ];
-			unsigned short* matrix = (unsigned short*) malloc(sizeof(short) * (genes[loc].length()*genes[i].length()));
+			unsigned short* matrix = new unsigned short [ genes[loc].length()*genes[i].length() ];
 			memset(matrix, -1, genes[loc].length()*genes[i].length()*sizeof(short));
+			
 			for (int r=0; r<genes[loc].length(); r++) {
 				for(int c=0; c<genes[i].length(); c++) {
 					longestCommonSequence(matrix, genes[loc], r, genes[i], c);
@@ -146,7 +147,7 @@ void readFile(ifstream& file, string genes[]) {
 	if (file.is_open()) {
 		for (int i = 0; i < NUM_GENES; i++) {
 			genes[i] = readGene(file);
-			if (genes[i].length() > 100000)
+			if (genes[i].length() > 25000)
 				i--;
 		}
 	}
